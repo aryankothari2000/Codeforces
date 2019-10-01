@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define pb push_back
+using namespace std;
+vector <ll> v[200005],nv[200005];
+ll vis[200005];
+ 
+void dfs(ll n)
+{
+  if(v[n].size()>2)return ;
+  if(vis[n])return;
+  vis[n]=1;
+  for(auto i:v[n])
+  {
+    if(!vis[i])dfs(i);
+  }
+}
+ 
+int main()
+{
+  ll n;cin>>n;
+  for(int i=0;i<n-1;i++)
+  {
+    ll a,b;cin>>a>>b;
+    v[a].pb(b);
+    v[b].pb(a);
+  }
+ 
+  for(int i=1;i<=n;i++)
+  {
+    if(v[i].size()==1)dfs(i);
+  }
+ll ans=0;
+  for(int i=1;i<=n;i++)
+  {
+    if(!vis[i])
+    {
+      for(auto j:v[i])
+      {  if(!vis[j])
+         nv[i].pb(j);
+      }
+ans=max(ans,(ll)nv[i].size());
+    }
+  }
+ 
+  if(ans>2)cout<<"NO";
+  else cout<<"YES";
+ 
+ 
+}
