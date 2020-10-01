@@ -1,0 +1,66 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define ld long double
+#define f first
+#define s second
+#define FOR(i,a,n) for(ll i=a;i<=n;i++)
+#define pb push_back
+#define fix  cout<<std::fixed;
+#define mk make_pair
+#define N 100005
+#define mod 1000000007
+#define time  cerr<< '\n' << "Time elapsed :" << clock() * 1000.0 / CLOCKS_PER_SEC << " ms\n" ;
+#define IOS        ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+using namespace std;
+vector<ll> v[N];
+ll p[N],h[N],flag,vis[N];
+void dfs(ll n)
+{ int g=-p[n];
+  vis[n]=1;
+  for(auto i:v[n] )
+  { if(vis[i]==0)
+    {dfs(i);
+    p[n]+=p[i];
+    g+=h[i];}
+  }
+ if (abs(h[n])>p[n] || g>h[n] || (h[n]-g)%2!=0 ) flag=1;
+}
+
+int main()
+{IOS
+  ll t;cin>>t;
+  while(t--)
+  {
+    ll n,pt;
+    cin >> n >> pt;
+    //ll p[n+1],h[n+1];
+    for(ll i=1;i<=n;i++)
+    {
+      cin >> p[i];
+    }
+     for(ll i=1;i<=n;i++)
+    {
+      cin >> h[i];
+    }
+    for(ll i=1;i<n;i++)
+    {
+      ll a,b; cin >>a>>b;
+      v[a].pb(b);
+      v[b].pb(a);
+    }
+    dfs(1);
+   // totp[1]+=p[1];
+    // for(ll i=1;i<=n;i++)
+    // {
+    //   if(p[i]==0 && h[i]!=0)flag=1;
+    //   if(abs(h[i]) > p[i] || (abs(h[i])%2 != p[i]%2))flag=1;
+    //  // cout<<flag<<endl;
+    // } 
+    if(flag)cout<<"NO";
+    else cout<<"YES";
+      cout<<endl;
+     // memset(totp,0,sizeof(totp));
+    for(ll i=1;i<=n;i++){vis[i]=0;v[i].clear();}
+      flag=0;
+  } 
+}
