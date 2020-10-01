@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+#define ll long long
+#define ld long double
+#define f first
+#define s second
+#define pb push_back
+#define fix  cout<<std::fixed;
+#define mk make_pair
+#define N 100005
+#define mod 1000000007
+#define time  cerr<< '\n' << "Time elapsed :" << clock() * 1000.0 / CLOCKS_PER_SEC << " ms\n" ;
+#define IOS        ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+using namespace std;
+ll n,m,k;
+ll a[105],val[105][105];
+ll dp[105][105][105];
+ll rec(ll id,ll b,ll col)
+{  
+    if(id==n+1)
+  {
+    if(b==k) return 0;
+    else return 1e18;
+  }
+   if(dp[id][b][col]!=-1) return dp[id][b][col];
+   if(a[id]==0)
+    {
+        ll t=1e18;
+    for(int i=1;i<=m;i++)
+    {
+       if(col!=i)
+       {
+         t=min(t,val[id][i]+rec(id+1,b+1,i));
+       }
+       else t=min(t,val[id][col]+rec(id+1,b,col));
+    }
+    return dp[id][b][col]=t;
+   }
+   else
+   {
+     if(col==a[id])
+        return dp[id][b][col]=rec(id+1,b,col);
+    else 
+        return dp[id][b][col]=rec(id+1,b+1,a[id]);
+   }
+}
+
+int main()
+{
+   cin>>n>>m>>k;
+   for(int i=1;i<=n;i++)cin>>a[i];
+    for(int i=1;i<=n;i++)
+        for(int j=1;j<=m;j++)cin>>val[i][j];
+memset(dp,-1,sizeof(dp));
+ll ans=rec(1,0,0);
+            if(ans==1e18)cout<<-1;
+            else
+            cout<<ans;
+
+}
